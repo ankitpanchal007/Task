@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import CustomSearchBar from '../common/CustomSearchBar';
 import CustomTable from '../common/CustomTable'
 import HomeLayout from '../Layout/HomeLayout'
-import { ConvertObjectToArray, SortData } from '../Utils'
+import { ConvertObjectToArray, SortData, FilterFormArray } from '../Utils'
 
 let columns = [{ Header: 'Name', accessor: 'name' },
-{ Header: 'Rank', accessor: 'stars' },
+{
+  Header: 'Rank', Cell: ((row) =>
+    <div>{Number(row.row.id) + 1}</div>)
+},
 { Header: 'No Of Bananas', accessor: 'bananas' },
 { Header: 'isSearchedUser?', accessor: 'subscribed' }
 ];
-
 
 const HomeScreen = (props) => {
 
@@ -17,16 +19,41 @@ const HomeScreen = (props) => {
   const [searchKeyword, setSearchKeyword] = useState("")
   const [filteredData, setFilteredData] = useState([])
   const leaderboardDataArray = ConvertObjectToArray(leaderboardData);
+  const [dataStatus, setDataStatus] = useState(false);
+  let DataStatus;
   const handleSearchChange = (e) => {
-    console.log(e);
-
-    // setSearchKeyword('') //
+    setSearchKeyword(e);
   }
+
+  let data = SortData(leaderboardDataArray);
 
   const handleOnSubmit = () => {
     // logic for filter by keyword
-    const searchRes = filterFormArray(leaderboardDataArray, searchKeyword)
+    console.log("called");
+
+    const searchRes = FilterFormArray(leaderboardDataArray, searchKeyword)
     setFilteredData(searchRes)
+    console.log(filteredData);
+  }
+
+  if (filteredData.length != 0) {
+    data && data.filter((a) => {
+      if (filteredData.includes(a)) {
+        console.log("found");
+        setDataStatus(true);
+        // DataStatus=true;
+      }
+    }
+    )
+
+  }
+  // setDataStatus(DataStatus);
+
+
+  if (dataStatus == false && searchKeyword.length != 0) {
+    {
+      data.splice(9, 1, ...filteredData);
+    }
   }
 
   useEffect(() => {
@@ -40,15 +67,12 @@ const HomeScreen = (props) => {
     }
     fetchLeaderboardData()
   }, [])
-  // const data=SortData(Object.values(leaderboardData))
-  // console.log(data);
-  
+
 
   return (
     <HomeLayout {...props}>
-      <CustomSearchBar searchText={searchKeyword} placeholder="Search here" onChange={handleSearchChange} />
-      <CustomTable tableColumns={columns} tableData={Object.values(leaderboardData)} />
-      <SortData  data={Object.values(leaderboardData)} />
+      <CustomSearchBar searchText={searchKeyword} placeholder="Search here" onChange={handleSearchChange} onSubmit={handleOnSubmit} />
+      <CustomTable tableColumns={columns} tableData={data} />
     </HomeLayout>
   )
 }

@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
-import { useTable,useGlobalFilter } from 'react-table'
+import { useTable, useGlobalFilter } from 'react-table'
 
-function CustomTable ({tableColumns, tableData}) {
+function CustomTable({ tableColumns, tableData }) {
 
   const columns = useMemo(() => tableColumns, [])
   const data = useMemo(() => tableData, [tableData])
@@ -12,8 +12,8 @@ function CustomTable ({tableColumns, tableData}) {
     headerGroups,
     rows,
     prepareRow,
-  } = useTable({columns: columns, data: data},useGlobalFilter)
- 
+  } = useTable({ columns: columns, data: data }, useGlobalFilter)
+
   return (
     <>
       <table {...getTableProps()}>
@@ -21,17 +21,23 @@ function CustomTable ({tableColumns, tableData}) {
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
-                <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+                <th
+                  style={{
+                    border: "1px solid black",
+                    backgroundColor: "grey",
+                    height: "40px",
+                  }}
+                  {...column.getHeaderProps()}>{column.render('Header')}</th>
               ))}
             </tr>
           ))}
         </thead>
-        <tbody style={{textAlign:'start',border:'2px solid black' }}{...getTableBodyProps()}>
+        <tbody style={{ textAlign: "center", border: "2px solid black" }}{...getTableBodyProps()}>
           {rows.map((row) => {
             prepareRow(row)
             return (
               <tr {...row.getRowProps()}>
-                {row.cells.map((cell)=> {
+                {row.cells.map((cell) => {
                   return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                 })}
               </tr>
