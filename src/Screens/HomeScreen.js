@@ -10,7 +10,7 @@ let columns = [{ Header: 'Name', accessor: 'name' },
     <div>{Number(row.row.id) + 1}</div>)
 },
 { Header: 'No Of Bananas', accessor: 'bananas' },
-{ Header: 'isSearchedUser?', accessor: 'subscribed' }
+{ Header: 'isSearchedUser?', accessor: d => { return d.isSearched ? 'Yes' : 'No' }, }
 ];
 
 const HomeScreen = (props) => {
@@ -19,8 +19,7 @@ const HomeScreen = (props) => {
   const [searchKeyword, setSearchKeyword] = useState("")
   const [filteredData, setFilteredData] = useState([])
   const leaderboardDataArray = ConvertObjectToArray(leaderboardData);
-  const [dataStatus, setDataStatus] = useState(false);
-  let DataStatus;
+
   const handleSearchChange = (e) => {
     setSearchKeyword(e);
   }
@@ -29,31 +28,8 @@ const HomeScreen = (props) => {
 
   const handleOnSubmit = () => {
     // logic for filter by keyword
-    console.log("called");
-
     const searchRes = FilterFormArray(leaderboardDataArray, searchKeyword)
     setFilteredData(searchRes)
-    console.log(filteredData);
-  }
-
-  if (filteredData.length != 0) {
-    data && data.filter((a) => {
-      if (filteredData.includes(a)) {
-        console.log("found");
-        setDataStatus(true);
-        // DataStatus=true;
-      }
-    }
-    )
-
-  }
-  // setDataStatus(DataStatus);
-
-
-  if (dataStatus == false && searchKeyword.length != 0) {
-    {
-      data.splice(9, 1, ...filteredData);
-    }
   }
 
   useEffect(() => {
@@ -68,11 +44,22 @@ const HomeScreen = (props) => {
     fetchLeaderboardData()
   }, [])
 
+  const tableData = filteredData.length === 0 ? data : filteredData;
+  // console.log(leaderboardDataArray.map(leaderboardDataArray.map((a) => tableData.map((b) => {
+  //   if (a.bananas === b.bananas) {
+  //     console.log(leaderboardDataArray.indexOf(a));
+  //   }
+  // }
+  // ))))
+
+  // console.log(tableData.map((a)=>a.name));
+  // const index = leaderboardDataArray.map(object => object.name).indexOf(...tableData);
+  // console.log(index);
 
   return (
     <HomeLayout {...props}>
       <CustomSearchBar searchText={searchKeyword} placeholder="Search here" onChange={handleSearchChange} onSubmit={handleOnSubmit} />
-      <CustomTable tableColumns={columns} tableData={data} />
+      <CustomTable tableColumns={columns} tableData={tableData} />
     </HomeLayout>
   )
 }

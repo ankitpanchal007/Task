@@ -12,14 +12,11 @@ export const ConvertObjectToArray = (data) => {
 
 // It will sort the data based on given field
 export const SortData = (data, field = 'bananas', order = 'desc') => {
-
-
     if (data && data.length > 0) {
         data.sort((a, b) => {
             if (order === 'asc')
                 return a[field] - b[field];
             if (order === 'desc')
-
                 return b[field] - a[field];
 
         });
@@ -27,25 +24,33 @@ export const SortData = (data, field = 'bananas', order = 'desc') => {
     return data.slice(0, 10);
 }
 
-export const FilterFormArray = (array, keyword) => {
-    // filter logic
-
+const findInArray = (array, keyword) => {
     if (array && array.length > 0) {
-        return (array.filter(item => item.name === keyword || item.name.startsWith(keyword)))
-
+        return (array.find(item => item.name === keyword || item.name.startsWith(keyword)))
     }
-
-    return array;
+    return false
 }
 
-// export const FilterTable = (sortedArray, keyword) => {
-//     sortedArray.map((a) => {
-//         if (a.includes(keyword)) {
-//             return;
-//         }
-//         else {
-//             return sortedArray.splice(10, 1, keyword);
-//         }
-//     })
+export const FilterFormArray = (array, keyword) => {
 
-// }
+    let resArray = SortData(array);
+
+    let findInFilterArray = findInArray(resArray, keyword)
+
+    if (findInFilterArray) {
+        // Highlightconst 
+        findInFilterArray.isSearched = "Yes";
+    } else {
+        const found = findInArray(array, keyword);
+        if (found) {
+            resArray['9'] = found;
+            found.isSearched = "Yes";
+        }
+    }
+
+    return resArray;
+}
+
+export const filterSearchData = () => {
+
+}

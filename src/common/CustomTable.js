@@ -16,8 +16,8 @@ function CustomTable({ tableColumns, tableData }) {
 
   return (
     <>
-      <table {...getTableProps()}>
-        <thead>
+      <table style={{ border: "1px solid black",height:"450px",width:"750px",textAlign:"center" }} {...getTableProps()}>
+      <thead>
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
@@ -27,18 +27,31 @@ function CustomTable({ tableColumns, tableData }) {
                     backgroundColor: "grey",
                     height: "40px",
                   }}
-                  {...column.getHeaderProps()}>{column.render('Header')}</th>
+                  {...column.getHeaderProps()}
+                >
+                  {column.render("Header")}
+                </th>
               ))}
             </tr>
           ))}
         </thead>
-        <tbody style={{ textAlign: "center", border: "2px solid black" }}{...getTableBodyProps()}>
+        <tbody
+          style={{ textAlign: "start", border: "2px solid black" }}
+          {...getTableBodyProps()}
+        >
           {rows.map((row) => {
-            prepareRow(row)
+            prepareRow(row);
             return (
               <tr {...row.getRowProps()}>
                 {row.cells.map((cell) => {
-                  return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                  return (
+                    <td
+                      style={{ border: "1px solid black",height:"30px",textAlign:"center" }}
+                      {...cell.getCellProps()}
+                    >
+                      {cell.render("Cell")}
+                    </td>
+                  );
                 })}
               </tr>
             )

@@ -11,7 +11,7 @@ const CustomSearchBar = ({ className, placeholder, onChange, searchText, onSubmi
         searchText={searchText}
         classNames={className}
       />
-      <button onClick={onSubmit}>Search</button>
+      <button  style={{border:"2px solid black",borderColor:"green",height:"35px",width:"80px"}}onClick={onSubmit}>Search</button>
     </div>
   )
 }
