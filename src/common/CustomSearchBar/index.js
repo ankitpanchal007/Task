@@ -3,6 +3,7 @@ import SearchField from "react-search-field";
 import './style.scss';
 
 const CustomSearchBar = ({ className, placeholder, onChange, searchText, onSubmit }) => {
+  const isDisabled = (searchText.length === 0 || !searchText)
   return (
     <div className="custom-search-bar">
       <SearchField
@@ -11,7 +12,10 @@ const CustomSearchBar = ({ className, placeholder, onChange, searchText, onSubmi
         searchText={searchText}
         classNames={className}
       />
-      <button  className="search-btn" onClick={onSubmit}>Search</button>
+      <button  
+        disabled={isDisabled} 
+        className={isDisabled ? "search-btn disabled" : "search-btn"} 
+        onClick={onSubmit}>Search</button>
     </div>
   )
 }

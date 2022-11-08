@@ -27,35 +27,67 @@ export const getSortedData = (data, field = 'bananas', order = 'desc', num = 10)
                 return a[field] - b[field];
             if (order === 'desc')
                 return b[field] - a[field];
-        });
+        });      
     }
+
     return data.slice(0, num);
 }
 
 // Find in array
 const findInArray = (array, keyword) => {
     if (array && array.length > 0) {
-        return (array.find(item => item.name === keyword))
+        return (array.find(item => item.name === keyword ))
     }
     return false
 }
+
+
+// Find Index Of
+const findIndexOfItem = (array, keyword) => {
+    if (array && array.length > 0) {
+        return array.findIndex(object => {
+            return object.name === keyword;
+        });
+    }
+    return false
+}
+
+// // id's for filtered data
+// const setIdFilteredData = (data) => {
+//     for (let i in data) {
+//         data[i].id = Number(i) + 1;
+//     }
+
+// }
+
 
 // Filter fron an array
 export const FilterFormArray = (array, keyword) => {
 
     let resArray = getSortedData(array);
+    let foundOnIndex = findIndexOfItem(resArray, keyword)
+   
+    // For Ranking
+    for (let i in resArray) {
+        const rank = Number(i)+1;
+        resArray[i].id = rank;
+        if (i == foundOnIndex) {
+            resArray[i].isSearched = true;
+        } else {
+            resArray[i].isSearched = false;
+        }
+        
+    }
 
-    let findInFilterArray = findInArray(resArray, keyword)
-    console.log('findInFilterArray', findInFilterArray)
 
-    if (findInFilterArray) {
-        // Highlightconst 
-        findInFilterArray.isSearched = "Yes";
-    } else {
-        const found = findInArray(array, keyword);
+    // If Found
+    if (foundOnIndex < 0) {
+        let found = findInArray(array, keyword);
+        let foundFullItemIndex = findIndexOfItem(array, keyword)
         if (found) {
+            found.id = +foundFullItemIndex + 1;
+            found.isSearched = true;
             resArray['9'] = found;
-            found.isSearched = "Yes";
         }
     }
 

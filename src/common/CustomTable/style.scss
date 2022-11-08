@@ -19,4 +19,9 @@
         background-color: #a4bb4a;
         color: white;
     }
+
+    span.selected,
+    tr.selected {
+        color: red;
+    }
 }

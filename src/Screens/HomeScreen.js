@@ -6,11 +6,10 @@ import { ConvertObjectToArray, getSortedData, FilterFormArray } from '../Utils'
 
 let columns = [{ Header: 'Name', accessor: 'name' },
 {
-  Header: 'Rank', Cell: ((row) =>
-    <div>{Number(row.row.id) + 1}</div>)
+  Header: 'Rank', accessor:'id' 
 },
 { Header: 'No Of Bananas', accessor: 'bananas' },
-{ Header: 'isSearchedUser?', accessor: d => { return d.isSearched ? 'Yes' : 'No' }, }
+{ Header: 'isSearchedUser?', accessor: d => { return d.isSearched ? 'yes' : 'no' }, }
 ];
 
 const HomeScreen = (props) => {
@@ -24,10 +23,8 @@ const HomeScreen = (props) => {
     setSearchKeyword(e);
   }
 
-  console.log('filteredData');
-
   let sortedData = getSortedData(leaderboardDataArray);
-
+ 
   const handleOnSubmit = () => {
     const searchRes = FilterFormArray(leaderboardDataArray, searchKeyword)
     setFilteredData(searchRes)
@@ -45,13 +42,15 @@ const HomeScreen = (props) => {
     fetchLeaderboardData()
   }, [])
 
+ const tableData = filteredData.length === 0 ? sortedData : filteredData;
+
  
   return (
     <HomeLayout {...props}>
       <CustomSearchBar searchText={searchKeyword} placeholder="Search here" onChange={handleSearchChange} onSubmit={handleOnSubmit} />
-      {/* {filteredData && filteredData.length > 0 &&  */}
-        <CustomTable tableColumns={columns} tableData={sortedData} />
-      {/* } */}
+      {filteredData && filteredData.length > 0 && 
+        <CustomTable tableColumns={columns} tableData={tableData} />
+      }
     </HomeLayout>
   )
 }
