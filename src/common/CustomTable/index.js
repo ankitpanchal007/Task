@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react'
 import { useTable, useGlobalFilter } from 'react-table'
+import './style.scss';
 
 function CustomTable({ tableColumns, tableData }) {
 
@@ -16,18 +17,13 @@ function CustomTable({ tableColumns, tableData }) {
 
   return (
     <>
-      <table style={{ border: "1px solid black",height:"450px",width:"750px",textAlign:"center" }} {...getTableProps()}>
+      <table className='custom-table-ui' {...getTableProps()}>
       <thead>
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
                 <th
-                  style={{
-                    border: "1px solid black",
-                    backgroundColor: "grey",
-                    height: "40px",
-                  }}
-                  {...column.getHeaderProps()}
+                            {...column.getHeaderProps()}
                 >
                   {column.render("Header")}
                 </th>
@@ -36,7 +32,6 @@ function CustomTable({ tableColumns, tableData }) {
           ))}
         </thead>
         <tbody
-          style={{ textAlign: "start", border: "2px solid black" }}
           {...getTableBodyProps()}
         >
           {rows.map((row) => {
@@ -46,7 +41,6 @@ function CustomTable({ tableColumns, tableData }) {
                 {row.cells.map((cell) => {
                   return (
                     <td
-                      style={{ border: "1px solid black",height:"30px",textAlign:"center" }}
                       {...cell.getCellProps()}
                     >
                       {cell.render("Cell")}

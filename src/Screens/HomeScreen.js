@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import CustomSearchBar from '../common/CustomSearchBar';
 import CustomTable from '../common/CustomTable'
 import HomeLayout from '../Layout/HomeLayout'
-import { ConvertObjectToArray, SortData, FilterFormArray } from '../Utils'
+import { ConvertObjectToArray, getSortedData, FilterFormArray } from '../Utils'
 
 let columns = [{ Header: 'Name', accessor: 'name' },
 {
@@ -24,10 +24,11 @@ const HomeScreen = (props) => {
     setSearchKeyword(e);
   }
 
-  let data = SortData(leaderboardDataArray);
+  console.log('filteredData');
+
+  let sortedData = getSortedData(leaderboardDataArray);
 
   const handleOnSubmit = () => {
-    // logic for filter by keyword
     const searchRes = FilterFormArray(leaderboardDataArray, searchKeyword)
     setFilteredData(searchRes)
   }
@@ -44,22 +45,13 @@ const HomeScreen = (props) => {
     fetchLeaderboardData()
   }, [])
 
-  const tableData = filteredData.length === 0 ? data : filteredData;
-  // console.log(leaderboardDataArray.map(leaderboardDataArray.map((a) => tableData.map((b) => {
-  //   if (a.bananas === b.bananas) {
-  //     console.log(leaderboardDataArray.indexOf(a));
-  //   }
-  // }
-  // ))))
-
-  // console.log(tableData.map((a)=>a.name));
-  // const index = leaderboardDataArray.map(object => object.name).indexOf(...tableData);
-  // console.log(index);
-
+ 
   return (
     <HomeLayout {...props}>
       <CustomSearchBar searchText={searchKeyword} placeholder="Search here" onChange={handleSearchChange} onSubmit={handleOnSubmit} />
-      <CustomTable tableColumns={columns} tableData={tableData} />
+      {/* {filteredData && filteredData.length > 0 &&  */}
+        <CustomTable tableColumns={columns} tableData={sortedData} />
+      {/* } */}
     </HomeLayout>
   )
 }

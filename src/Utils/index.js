@@ -1,4 +1,4 @@
-import CustomTable from '../common/CustomTable'
+
 // It will convert objects of objects data to array of objects
 export const ConvertObjectToArray = (data) => {
     let array = []
@@ -10,32 +10,43 @@ export const ConvertObjectToArray = (data) => {
     return array
 }
 
-// It will sort the data based on given field
-export const SortData = (data, field = 'bananas', order = 'desc') => {
+// Remove empty name data 
+export const removeEmptyFieldData = (data) => {
     if (data && data.length > 0) {
+        return data.filter((obj => obj.name !== ""));
+    }
+    return data;
+}
+
+// It will sort the data based on given field
+export const getSortedData = (data, field = 'bananas', order = 'desc', num = 10) => {
+    if (data && data.length > 0) {
+        data = removeEmptyFieldData(data);
         data.sort((a, b) => {
             if (order === 'asc')
                 return a[field] - b[field];
             if (order === 'desc')
                 return b[field] - a[field];
-
         });
     }
-    return data.slice(0, 10);
+    return data.slice(0, num);
 }
 
+// Find in array
 const findInArray = (array, keyword) => {
     if (array && array.length > 0) {
-        return (array.find(item => item.name === keyword || item.name.startsWith(keyword)))
+        return (array.find(item => item.name === keyword))
     }
     return false
 }
 
+// Filter fron an array
 export const FilterFormArray = (array, keyword) => {
 
-    let resArray = SortData(array);
+    let resArray = getSortedData(array);
 
     let findInFilterArray = findInArray(resArray, keyword)
+    console.log('findInFilterArray', findInFilterArray)
 
     if (findInFilterArray) {
         // Highlightconst 
@@ -49,8 +60,4 @@ export const FilterFormArray = (array, keyword) => {
     }
 
     return resArray;
-}
-
-export const filterSearchData = () => {
-
 }
