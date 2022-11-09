@@ -6,7 +6,6 @@ function CustomTable({ tableColumns, tableData }) {
 
   const columns = useMemo(() => tableColumns, [])
   const data = useMemo(() => tableData, [tableData])
-  console.log(tableData);
 
   const {
     getTableProps,
@@ -16,8 +15,6 @@ function CustomTable({ tableColumns, tableData }) {
     prepareRow,
   } = useTable({ columns: columns, data: data }, useGlobalFilter)
 
-
-console.log(rows)
   return (
     <>
       <table className='custom-table-ui' {...getTableProps()}>
@@ -41,8 +38,8 @@ console.log(rows)
             prepareRow(row);
             return (
               <tr               
+              className={row.values['isSearchedUser?'] ==='yes'?"selected": ""}
                 {...row.getRowProps()}
-                 className={row.isSearched ===true?"selected": ""}
                 
                  >
                 {row.cells.map((cell) => {

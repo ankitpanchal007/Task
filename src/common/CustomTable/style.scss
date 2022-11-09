@@ -22,7 +22,9 @@
 
     span.selected,
     tr.selected {
-        color: red;
+        td:nth-child(1) {
+            color: red;
+        }
     }
   
 }
