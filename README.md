@@ -24,4 +24,4 @@ It correctly bundles React in production mode and optimizes the build for the be
 
 Install JSON Server if not already installed. npm install -g json-server
 
-Run Server on Port 5000 http://localhost:5000/api/ json-server --watch leaderboard.json --port 5000
+Run Server on Port 4000 http://localhost:4000/api/ json-server --watch leaderboard.json --port 4000
