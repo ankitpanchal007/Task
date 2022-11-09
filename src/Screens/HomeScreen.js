@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
+import Swal from 'sweetalert2';
 import CustomSearchBar from '../common/CustomSearchBar';
 import CustomTable from '../common/CustomTable'
 import HomeLayout from '../Layout/HomeLayout'
@@ -27,6 +28,14 @@ const HomeScreen = (props) => {
   
   const handleOnSubmit = () => {
     const searchRes = FilterFormArray(leaderboardDataArray, searchKeyword)
+    if (searchRes && searchRes.length === 0) {
+      Swal.fire({
+        title: 'Name does not exists.',
+        text: 'Please search with another name.',
+        icon: 'error',
+        confirmButtonText: 'Ok'
+      })
+    }
     setFilteredData(searchRes)
   }
 
@@ -36,7 +45,12 @@ const HomeScreen = (props) => {
         .then(response => response.json())
         .then(data => setLeaderboardData(data))
         .catch(() => {
-          alert("Please start the server first.")
+          Swal.fire({
+            title: 'Server not running.',
+            text: 'Please the server using "npm run json-server" command',
+            icon: 'error',
+            confirmButtonText: 'Ok'
+        })
         });
     }
     fetchLeaderboardData()

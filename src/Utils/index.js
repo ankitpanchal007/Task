@@ -1,4 +1,3 @@
-import Swal from 'sweetalert2'
 
 // It will convert objects of objects data to array of objects
 export const ConvertObjectToArray = (data) => {
@@ -88,12 +87,7 @@ export const FilterFormArray = (array, keyword) => {
             resArray['9'] = found;
         }
         else {
-            Swal.fire({
-                title: 'Name Does Not Exist',
-                text: 'Please Enter Valid Name',
-                icon: 'error',
-                confirmButtonText: 'Ok'
-            })
+            return []
         }
     }
 
