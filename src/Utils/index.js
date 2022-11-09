@@ -14,18 +14,19 @@ export const ConvertObjectToArray = (data) => {
 // Remove empty name data 
 export const EmptyFieldData = (data) => {
     if (data && data.length > 0) {
-         data.map((obj => {if(obj.name == "")
-         {
-            obj.name="Empty";
-         }}));
+        data.map((obj => {
+            if (obj.name == "") {
+                obj.name = "Empty";
+            }
+        }));
     }
     return data;
 }
 
 // It will sort the data based on given field
 export const getSortedData = (data, field = 'bananas', order = 'desc', num = 10) => {
-      data =EmptyFieldData(data);
-    if (data && data.length > 0) {      
+    data = EmptyFieldData(data);
+    if (data && data.length > 0) {
         data.sort((a, b) => {
             if (order === 'asc')
                 return a[field] - b[field];
@@ -34,16 +35,16 @@ export const getSortedData = (data, field = 'bananas', order = 'desc', num = 10)
         });
     }
 
-    return data.slice(0,num)
+    return data.slice(0, num)
 }
 
 // Find in array
 const findInArray = (array, keyword) => {
     if (array && array.length > 0) {
-        
+
         return (array.find(item => item.name === keyword))
     }
-    
+
 }
 
 // Find Index Of
@@ -59,7 +60,7 @@ const findIndexOfItem = (array, keyword) => {
 
 // Filter fron an array
 export const FilterFormArray = (array, keyword) => {
-    
+
 
     let resArray = getSortedData(array);
     let foundOnIndex = findIndexOfItem(resArray, keyword)
@@ -78,7 +79,7 @@ export const FilterFormArray = (array, keyword) => {
 
     // If Found
     if (foundOnIndex < 0) {
-       
+
         let found = findInArray(array, keyword);
         let foundFullItemIndex = findIndexOfItem(array, keyword)
         if (found) {
@@ -86,13 +87,13 @@ export const FilterFormArray = (array, keyword) => {
             found.isSearched = true;
             resArray['9'] = found;
         }
-        else{
-        Swal.fire({
-  title: 'Error!',
-  text: 'Please Enter Right Name',
-  icon: 'error',
-  confirmButtonText: 'OK'
-})
+        else {
+            Swal.fire({
+                title: 'Name Does Not Exist',
+                text: 'Please Enter Valid Name',
+                icon: 'error',
+                confirmButtonText: 'Ok'
+            })
         }
     }
 

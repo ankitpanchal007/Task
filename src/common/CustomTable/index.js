@@ -42,7 +42,7 @@ console.log(rows)
             return (
               <tr               
                 {...row.getRowProps()}
-                 className={row.isSearched ===true?"": "selected"}
+                 className={row.isSearched ===true?"selected": ""}
                 
                  >
                 {row.cells.map((cell) => {
