@@ -12,9 +12,9 @@ const CustomSearchBar = ({ className, placeholder, onChange, searchText, onSubmi
         searchText={searchText}
         classNames={className}
       />
-      <button  
-        disabled={isDisabled} 
-        className={isDisabled ? "search-btn disabled" : "search-btn"} 
+      <button
+        disabled={isDisabled}
+        className={isDisabled ? "search-btn disabled" : "search-btn"}
         onClick={onSubmit}>Search</button>
     </div>
   )

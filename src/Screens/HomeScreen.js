@@ -4,7 +4,12 @@ import CustomTable from '../common/CustomTable'
 import HomeLayout from '../Layout/HomeLayout'
 import { ConvertObjectToArray, getSortedData, FilterFormArray } from '../Utils'
 
-let columns = [{ Header: 'Name', accessor: 'name' },
+let columns = [{ Header: 'Name', accessor: 'name',    
+//  Cell: cell => (
+//           <span className={cell.isSearched ==="yes" ? "selected" : ""}>
+//             {cell.value}
+//           </span>)
+},
 {
   Header: 'Rank', accessor:'id' 
 },
@@ -24,7 +29,7 @@ const HomeScreen = (props) => {
   }
 
   let sortedData = getSortedData(leaderboardDataArray);
- 
+
   const handleOnSubmit = () => {
     const searchRes = FilterFormArray(leaderboardDataArray, searchKeyword)
     setFilteredData(searchRes)
@@ -42,7 +47,7 @@ const HomeScreen = (props) => {
     fetchLeaderboardData()
   }, [])
 
- const tableData = filteredData.length === 0 ? sortedData : filteredData;
+ const tableData = filteredData.length === 0 ? sortedData.slice(0,10) : filteredData;
 
  
   return (

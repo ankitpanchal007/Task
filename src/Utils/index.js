@@ -21,24 +21,26 @@ export const removeEmptyFieldData = (data) => {
 // It will sort the data based on given field
 export const getSortedData = (data, field = 'bananas', order = 'desc', num = 10) => {
     if (data && data.length > 0) {
-        data = removeEmptyFieldData(data);
+        // data = removeEmptyFieldData(data);
         data.sort((a, b) => {
             if (order === 'asc')
                 return a[field] - b[field];
             if (order === 'desc')
                 return b[field] - a[field];
-        });      
+        });
     }
 
-    return data.slice(0, num);
+    return data
 }
 
 // Find in array
 const findInArray = (array, keyword) => {
     if (array && array.length > 0) {
-        return (array.find(item => item.name === keyword ))
+        return (array.find(item => item.name === keyword))
     }
-    return false
+    else{
+    alert('enter right name');
+    }
 }
 
 
@@ -66,22 +68,23 @@ export const FilterFormArray = (array, keyword) => {
 
     let resArray = getSortedData(array);
     let foundOnIndex = findIndexOfItem(resArray, keyword)
-   
+
     // For Ranking
     for (let i in resArray) {
-        const rank = Number(i)+1;
+        const rank = Number(i) + 1;
         resArray[i].id = rank;
         if (i == foundOnIndex) {
             resArray[i].isSearched = true;
         } else {
             resArray[i].isSearched = false;
         }
-        
+
     }
 
 
     // If Found
     if (foundOnIndex < 0) {
+        console.log(foundOnIndex)
         let found = findInArray(array, keyword);
         let foundFullItemIndex = findIndexOfItem(array, keyword)
         if (found) {
