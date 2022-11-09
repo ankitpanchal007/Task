@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2'
 
 // It will convert objects of objects data to array of objects
 export const ConvertObjectToArray = (data) => {
@@ -11,17 +12,20 @@ export const ConvertObjectToArray = (data) => {
 }
 
 // Remove empty name data 
-export const removeEmptyFieldData = (data) => {
+export const EmptyFieldData = (data) => {
     if (data && data.length > 0) {
-        return data.filter((obj => obj.name !== ""));
+         data.map((obj => {if(obj.name == "")
+         {
+            obj.name="Empty";
+         }}));
     }
     return data;
 }
 
 // It will sort the data based on given field
 export const getSortedData = (data, field = 'bananas', order = 'desc', num = 10) => {
-    if (data && data.length > 0) {
-        // data = removeEmptyFieldData(data);
+      data =EmptyFieldData(data);
+    if (data && data.length > 0) {      
         data.sort((a, b) => {
             if (order === 'asc')
                 return a[field] - b[field];
@@ -30,41 +34,32 @@ export const getSortedData = (data, field = 'bananas', order = 'desc', num = 10)
         });
     }
 
-    return data
+    return data.slice(0,num)
 }
 
 // Find in array
 const findInArray = (array, keyword) => {
     if (array && array.length > 0) {
+        
         return (array.find(item => item.name === keyword))
     }
-    else{
-    alert('enter right name');
-    }
+    
 }
-
 
 // Find Index Of
 const findIndexOfItem = (array, keyword) => {
     if (array && array.length > 0) {
         return array.findIndex(object => {
-            return object.name === keyword;
+            return object.name === keyword.trim();
         });
     }
     return false
 }
 
-// // id's for filtered data
-// const setIdFilteredData = (data) => {
-//     for (let i in data) {
-//         data[i].id = Number(i) + 1;
-//     }
-
-// }
-
 
 // Filter fron an array
 export const FilterFormArray = (array, keyword) => {
+    
 
     let resArray = getSortedData(array);
     let foundOnIndex = findIndexOfItem(resArray, keyword)
@@ -81,16 +76,23 @@ export const FilterFormArray = (array, keyword) => {
 
     }
 
-
     // If Found
     if (foundOnIndex < 0) {
-        console.log(foundOnIndex)
+       
         let found = findInArray(array, keyword);
         let foundFullItemIndex = findIndexOfItem(array, keyword)
         if (found) {
             found.id = +foundFullItemIndex + 1;
             found.isSearched = true;
             resArray['9'] = found;
+        }
+        else{
+        Swal.fire({
+  title: 'Error!',
+  text: 'Please Enter Right Name',
+  icon: 'error',
+  confirmButtonText: 'OK'
+})
         }
     }
 

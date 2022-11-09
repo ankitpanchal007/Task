@@ -3,7 +3,7 @@ import SearchField from "react-search-field";
 import './style.scss';
 
 const CustomSearchBar = ({ className, placeholder, onChange, searchText, onSubmit }) => {
-  const isDisabled = (searchText.length === 0 || !searchText)
+  const isDisabled = (searchText.trim().length === 0 || !searchText)
   return (
     <div className="custom-search-bar">
       <SearchField
